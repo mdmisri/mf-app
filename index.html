@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapFrens - Real-time Social Location App</title>
+    <meta name="description" content="Connect with friends in the real world. Real-time location sharing, chat, and more. Available on Android.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="assets/mapfrens.png">
+    <style>
+        :root {
+            --primary: #6B47FF;
+            --primary-hover: #5835ff;
+            --background: #08021A;
+            --surface: #201B40;
+            --text: #FFFFFF;
+            --text-secondary: #A9A9A9;
+            --success: #00C851;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 40px 0;
+            background: radial-gradient(circle at center, rgba(107, 71, 255, 0.15) 0%, transparent 70%);
+        }
+
+        .globe-video-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 30px;
+        }
+
+        .globe-video {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 60px rgba(107, 71, 255, 0.4);
+            border: 3px solid var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .pulse {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.2;
+            z-index: 1;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+            70% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #a58aff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1.5px;
+            text-shadow: 0 10px 30px rgba(107, 71, 255, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            max-width: 600px;
+            font-weight: 400;
+        }
+
+        /* Install Button */
+        .install-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, #5025ff 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(107, 71, 255, 0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .install-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .install-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(107, 71, 255, 0.5), inset 0 1px 1px rgba(255,255,255,0.2);
+        }
+
+        .install-btn:hover::before {
+            opacity: 1;
+        }
+
+        .install-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .android-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            color: var(--success);
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: rgba(0, 200, 81, 0.1);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 200, 81, 0.2);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 100px 0;
+            background: var(--surface);
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: var(--surface);
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 80px;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(107, 71, 255, 0.1), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(107, 71, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(107, 71, 255, 0.2), rgba(107, 71, 255, 0.1));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--primary);
+            font-size: 1.8rem;
+            border: 1px solid rgba(107, 71, 255, 0.2);
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            background: var(--background);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            .hero { min-height: auto; padding: 80px 0; }
+            .features { padding: 60px 0; }
+            .features::before { display: none; }
+            .features { border-top-left-radius: 40px; border-top-right-radius: 40px; margin-top: -40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="container">
+            <div class="globe-video-container">
+                <div class="pulse"></div>
+                <video class="globe-video" autoplay loop muted playsinline poster="assets/mapfrens.png">
+                    <source src="assets/MFVID.mp4" type="video/mp4">
+                    <img src="assets/mapfrens.png" alt="MapFrens Logo">
+                </video>
+            </div>
+
+            <h1>MapFrens</h1>
+            <p class="tagline">The next generation of social location sharing. Connect, chat, and explore your world in real-time.</p>
+
+            <a href="https://expo.dev/accounts/mdmisri12s-organization/projects/mapfrens/builds/7382f884-c67f-4af2-b17f-d1ac794b9139" class="install-btn">
+                <i class="fab fa-android"></i>
+                <span>Download for Android</span>
+            </a>
+
+            <div class="android-badge">
+                <i class="fas fa-check-circle"></i>
+                <span>Latest Version Available</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="container">
+            <h2 class="section-title">Experience the Connection</h2>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Live Map Interface</h3>
+                    <p class="feature-desc">See your friends move in real-time on a beautiful, dark-mode map. Never ask "Where are you?" again.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Interactions</h3>
+                    <p class="feature-desc">Send waves, nudges, and emojis instantly. Let friends know you're thinking of them with a single tap.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-ghost"></i>
+                    </div>
+                    <h3 class="feature-title">Ghost Mode</h3>
+                    <p class="feature-desc">Complete privacy control. Go invisible whenever you want, or hide from specific people. Your location, your rules.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">Integrated Chat</h3>
+                    <p class="feature-desc">Seamless messaging experience built right into the map. Coordinate plans without switching apps.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Privacy</h3>
+                    <p class="feature-desc">Hide from strangers, block users, and manage your circle. We prioritize your safety and data privacy.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Friend Network</h3>
+                    <p class="feature-desc">Build your network of close friends. See who's nearby and meet up spontaneously.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 MapFrens. Built for connection.</p>
+    </footer>
+
+</body>
+</html>
